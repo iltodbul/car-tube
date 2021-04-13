@@ -74,7 +74,7 @@ async function register(username, password) {
     password,
   });
 
-  clearUserData();
+  setUserData(result);
 
   return result;
 }
@@ -82,7 +82,7 @@ async function register(username, password) {
 function logout() {
   const result = get(settings.host + '/users/logout');
 
-  setUserData(result);
+  clearUserData();
 
   return result;
 }
