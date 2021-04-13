@@ -1,3 +1,5 @@
+import { getUserData, setUserData, clearUserData } from '../utility.js';
+
 const settings = {
   host: '',
 };
@@ -22,17 +24,15 @@ async function request(url, options) {
   }
 }
 
-function getOptions(method = 'get', body) {
+function createOptions(method = 'get', body) {
   const options = {
     method,
     headers: {},
   };
-
-  const token = sessionStorage.getItem('authToken');
-  if (token != null) {
-    options.headers['X-Authorization'] = token;
+  const user = getUserData();
+  if (user) {
+    options.headers['X-Authorization'] = user.accessToken;
   }
-
   if (body) {
     options.headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(body);
@@ -42,61 +42,47 @@ function getOptions(method = 'get', body) {
 }
 
 async function get(url) {
-  return await request(url, getOptions());
+  return await request(url, createOptions());
 }
 
 async function post(url, data) {
-  return await request(url, getOptions('post', data));
+  return await request(url, createOptions('post', data));
 }
 
 async function put(url, data) {
-  return await request(url, getOptions('put', data));
+  return await request(url, createOptions('put', data));
 }
 
 async function del(url) {
-  return await request(url, getOptions('delete'));
+  return await request(url, createOptions('delete'));
 }
 
-async function login(email, password) {
+async function login(username, password) {
   const result = await post(settings.host + '/users/login', {
-    email,
+    username,
     password,
   });
 
-  sessionStorage.setItem('username', result.username);
-  sessionStorage.setItem('email', result.email);
-  sessionStorage.setItem('authToken', result.accessToken);
-  sessionStorage.setItem('userId', result._id);
-  sessionStorage.setItem('userGender', result.gender);
+  setUserData(result);
 
   return result;
 }
 
-async function register(username, email, password, gender) {
+async function register(username, password) {
   const result = await post(settings.host + '/users/register', {
     username,
-    email,
     password,
-    gender,
   });
 
-  sessionStorage.setItem('username', result.username);
-  sessionStorage.setItem('email', result.email);
-  sessionStorage.setItem('authToken', result.accessToken);
-  sessionStorage.setItem('userId', result._id);
-  sessionStorage.setItem('userGender', result.gender);
+  clearUserData();
 
   return result;
 }
 
-async function logout() {
-  const result = await get(settings.host + '/users/logout');
+function logout() {
+  const result = get(settings.host + '/users/logout');
 
-  sessionStorage.removeItem('username');
-  sessionStorage.removeItem('email');
-  sessionStorage.removeItem('authToken');
-  sessionStorage.removeItem('userId');
-  sessionStorage.removeItem('userGender');
+  setUserData(result);
 
   return result;
 }
