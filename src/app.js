@@ -7,6 +7,7 @@ import { getUserData } from './utility.js';
 import { logout } from './api/data.js';
 import { registerPage } from './views/register.js';
 import { catalogPage } from './views/catalog.js';
+import { detailsPage } from './views/details.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', userLogout);
@@ -16,6 +17,7 @@ page('/', decorateContext, homePage);
 page('/login', decorateContext, loginPage);
 page('/register', decorateContext, registerPage);
 page('/catalog', decorateContext, catalogPage);
+page('/details/:id', decorateContext, detailsPage);
 
 page.start();
 
