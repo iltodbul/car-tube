@@ -18,7 +18,7 @@ const detailTemplate = (car, isOwner, onDelete) => html`
       ${isOwner
         ? html`
             <div class="listings-buttons">
-              <a href="/edit" class="button-list">Edit</a>
+              <a href="/edit/${car._id}" class="button-list">Edit</a>
               <a
                 @click=${onDelete}
                 href="javascript:void(0)"

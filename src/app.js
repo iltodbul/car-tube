@@ -9,6 +9,8 @@ import { registerPage } from './views/register.js';
 import { catalogPage } from './views/catalog.js';
 import { detailsPage } from './views/details.js';
 import { myListingPage } from './views/my-listing.js';
+import { createPage } from './views/create.js';
+import { editPage } from './views/edit.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', userLogout);
@@ -20,6 +22,8 @@ page('/register', decorateContext, registerPage);
 page('/catalog', decorateContext, catalogPage);
 page('/details/:id', decorateContext, detailsPage);
 page('/my-listing', decorateContext, myListingPage);
+page('/create', decorateContext, createPage);
+page('/edit/:id', decorateContext, editPage);
 
 page.start();
 
