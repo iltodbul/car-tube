@@ -8,6 +8,7 @@ import { logout } from './api/data.js';
 import { registerPage } from './views/register.js';
 import { catalogPage } from './views/catalog.js';
 import { detailsPage } from './views/details.js';
+import { myListingPage } from './views/my-listing.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', userLogout);
@@ -18,6 +19,7 @@ page('/login', decorateContext, loginPage);
 page('/register', decorateContext, registerPage);
 page('/catalog', decorateContext, catalogPage);
 page('/details/:id', decorateContext, detailsPage);
+page('/my-listing', decorateContext, myListingPage);
 
 page.start();
 
