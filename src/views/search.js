@@ -3,7 +3,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { carTemplate } from './catalog.js';
 import { getListingByYear } from '../api/data.js';
 
-const searchTemplate = (cars, onSearch) => html`
+const searchTemplate = (cars, onSearch, query) => html`
   <section id="search-cars">
     <h1>Filter by year</h1>
 
@@ -13,8 +13,9 @@ const searchTemplate = (cars, onSearch) => html`
         type="text"
         name="search"
         placeholder="Enter desired production year"
+        .value=${query || ''}
       />
-      <button id="searchBtn" class="button-list">Search</button>
+      <button @click=${onSearch} class="button-list">Search</button>
     </div>
 
     <h2>Results:</h2>
@@ -28,19 +29,17 @@ const searchTemplate = (cars, onSearch) => html`
 `;
 
 export async function searchPage(ctx) {
-  let cars = [];
-  ctx.render(searchTemplate(cars));
-  let searchBtn = document
-    .getElementById('searchBtn')
-    .addEventListener('click', onSearch);
+  let query = Number(ctx.querystring.split('=')[1]);
+  let cars = Number.isNaN(query) ? [] : await getListingByYear(query);
+  ctx.render(searchTemplate(cars, onSearch, query));
 
-  async function onSearch(event) {
+  async function onSearch() {
     let searchYear = document.getElementById('search-input').value.trim();
     searchYear = Number(searchYear);
-    if (typeof searchYear !== 'number' || searchYear <= 0) {
-      return alert('Year must be a positive number!');
+    if (Number.isNaN(searchYear) == false || searchYear <= 0) {
+      ctx.page.redirect('/search?quiery=' + searchYear);
+    } else {
+      alert('Year must be a positive number!');
     }
-    cars = await getListingByYear(searchYear);
-    ctx.render(searchTemplate(cars));
   }
 }
