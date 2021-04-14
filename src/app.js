@@ -11,6 +11,7 @@ import { detailsPage } from './views/details.js';
 import { myListingPage } from './views/my-listing.js';
 import { createPage } from './views/create.js';
 import { editPage } from './views/edit.js';
+import { searchPage } from './views/search.js';
 
 const main = document.querySelector('main');
 document.getElementById('logoutBtn').addEventListener('click', userLogout);
@@ -24,6 +25,7 @@ page('/details/:id', decorateContext, detailsPage);
 page('/my-listing', decorateContext, myListingPage);
 page('/create', decorateContext, createPage);
 page('/edit/:id', decorateContext, editPage);
+page('/search', decorateContext, searchPage);
 
 page.start();
 

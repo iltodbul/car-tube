@@ -33,3 +33,7 @@ export async function getMyListings(userId) {
       `/data/cars?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`
   );
 }
+
+export async function getListingByYear(year) {
+  return await api.get(host + `/data/cars?where=year%3D${year}`);
+}

@@ -86,10 +86,10 @@ export async function editPage(ctx) {
       return alert('All fields are required!');
     }
     if (typeof year !== 'number' || year <= 0) {
-      return alert('Year must be positiv number!');
+      return alert('Year must be a positive number!');
     }
     if (typeof price !== 'number' || price <= 0) {
-      return alert('Price must be positiv number!');
+      return alert('Price must be a positive number!');
     }
 
     let editedCar = { brand, model, description, year, imageUrl, price };

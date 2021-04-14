@@ -12,7 +12,7 @@ const catalogTemplate = (cars) => html`
   </section>
 `;
 
-const carTemplate = (car) => html`
+export const carTemplate = (car) => html`
   <div class="listing">
     <div class="preview">
       <img src=${car.imageUrl} />
