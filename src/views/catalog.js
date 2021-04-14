@@ -1,11 +1,24 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getAllListings } from '../api/data.js';
+import { getAllListings, getCollectionSize } from '../api/data.js';
 
-const catalogTemplate = (cars) => html`
+const catalogTemplate = (cars, page, pages) => html`
   <section id="car-listings">
     <h1>Car Listings</h1>
     <div class="listings">
-      ${cars.length <= 0
+      <div>
+        Page ${page} / ${pages}
+        ${page > 1
+          ? html`<a class="button-list" href="/catalog?page=${page - 1}"
+              >&lt; Prev</a
+            >`
+          : ''}
+        ${page < pages
+          ? html`<a class="button-list" href="/catalog?page=${page + 1}"
+              >Next &gt;</a
+            >`
+          : ''}
+      </div>
+      ${cars.length == 0
         ? html`<p class="no-cars">No cars in database.</p>`
         : cars.map(carTemplate)}
     </div>
@@ -31,6 +44,10 @@ export const carTemplate = (car) => html`
 `;
 
 export async function catalogPage(ctx) {
-  let cars = await getAllListings();
-  ctx.render(catalogTemplate(cars));
+  const page = Number(ctx.querystring.split('=')[1]) || 1;
+  let count = await getCollectionSize();
+  let pages = Math.ceil(count / 3);
+  let cars = await getAllListings(page);
+
+  ctx.render(catalogTemplate(cars, page, pages));
 }
