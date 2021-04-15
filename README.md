@@ -9,4 +9,4 @@ Ad authors can also edit or delete their own publications at any time.
 ## Starting the Service
 * The REST service is in a folder named “server” inside the provided resources archive. 
 It has no dependencies and can be started by opening a terminal in its directory and executing: ```node server.js```
-* You can find more details on the [GitHub repository of the service.](https://github.com/softuni-practice-server/softuni-practice-server/blob/master/README.md)(http://google.com)
+* You can find more details on the [GitHub repository of the service.](https://github.com/softuni-practice-server/softuni-practice-server/blob/master/README.md)
